@@ -32,10 +32,16 @@ class TestHTMLNode(unittest.TestCase):
         html = "<a>Hello world</a>"
         self.assertEqual(node, html)
         node = LeafNode("a","Hello world", {"href":"https://boot.dev"}).to_html()
-        html = '<a href="htttps://boot.dev">Hello world</a>'
+        html = '<a href="https://boot.dev">Hello world</a>'
+        self.assertEqual(node, html)
+        node = LeafNode("a", "Hello world", {}).to_html()
+        html = "<a>Hello world</a>"
+        self.assertEqual(node, html)
+        node = LeafNode("b", "Bold text").to_html()
+        html = "<b>Bold text</b>"
         self.assertEqual(node, html)
         # ParentNode tests
-        '''node = ParentNode(
+        node = ParentNode(
                         "p",
                         [
                             LeafNode("b", "Bold text"),
@@ -45,7 +51,20 @@ class TestHTMLNode(unittest.TestCase):
                         ],
                     ).to_html()
         result = "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>"
-        self.assertEqual(node, result)'''
+        self.assertEqual(node, result)
+        node = ParentNode(
+            "p",
+            [ParentNode(
+                "a",
+                [LeafNode("b", "Bold text"),
+                 LeafNode(None, "Normal text")]
+            ),
+            LeafNode("i","italic text"),
+            LeafNode(None, "Normal text")]
+        ).to_html()
+        result = "<p><a><b>Bold text</b>Normal text</a><i>italic text</i>Normal text</p>"
+        self.assertEqual(node, result)
+
 
 if __name__ == "__main__":
     unittest.main()

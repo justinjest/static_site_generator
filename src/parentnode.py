@@ -16,6 +16,6 @@ class ParentNode(HTMLNode):
         for child in self.children:
             html_content += child.to_html() 
         # TODO add first parent class around return
-        if self.props == None or self.props == {}:
-            return (f"<{self.tag}>{self.props_to_html}{html_content}</{self.tag}>")
+        if self.props == None:
+            return (f"<{self.tag}>{html_content}</{self.tag}>")
         return (f"<{self.tag}>{self.props_to_html}{html_content}</{self.tag}>")

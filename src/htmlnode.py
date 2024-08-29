@@ -12,7 +12,6 @@ class HTMLNode:
         ans = ""
         for key, value in self.props.items():
             ans = ans + f' {key}="{value}"'
-        return("")
         return (ans)
     
     def __eq__(self, node):
