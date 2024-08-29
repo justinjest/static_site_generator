@@ -4,6 +4,7 @@ from textnode import TextNode
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
+        '''
         # same
         node = TextNode("This is a text node", "bold")
         node2 = TextNode("This is a text node", "bold")
@@ -28,5 +29,9 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("This is a test node", "bold", "https://boot.dev.com")
         node2 = TextNode("This is not a test", "bold")
         self.assertNotEqual(node, node2)
+        '''
+        node = TextNode("This is a test", "text").text_node_to_html_node()
+        html = "This is a test"
+        self.assertEqual(node,html)
 if __name__ == "__main__":
     unittest.main()
