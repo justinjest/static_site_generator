@@ -11,7 +11,8 @@ class HTMLNode:
     def props_to_html(self):
         ans = ""
         for key, value in self.props.items():
-            ans = ans + f" {key}={value}"
+            ans = ans + f' {key}="{value}"'
+        return("")
         return (ans)
     
     def __eq__(self, node):
@@ -19,5 +20,6 @@ class HTMLNode:
              and self.children == node.children and self.props == node.props):
             return True
         return False
+    
     def __repr__(self):
         return (f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})")

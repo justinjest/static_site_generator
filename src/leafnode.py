@@ -10,5 +10,7 @@ class LeafNode(HTMLNode):
         # TODO add single closed tag support EG <img>
         if self.tag == None:
             return (self.value)
+        if self.props == None:
+            return (f"<{self.tag}>{self.value}</{self.tag}>")
         else:
-            return (f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>")
+            return (f"<{self.tag}>{self.props_to_html()}>{self.value}</{self.tag}>")
