@@ -42,5 +42,21 @@ class TestTextNode(unittest.TestCase):
         node = TextNode("This is a test", "text").text_node_to_html_node().to_html()
         html = "This is a test"
         self.assertEqual(node,html)
+        node = TextNode("This is a test", "bold").text_node_to_html_node().to_html()
+        html = "<b>This is a test</b>"
+        self.assertEqual(node,html)
+        node = TextNode("This is a test", "italic").text_node_to_html_node().to_html()
+        html = "<i>This is a test</i>"
+        self.assertEqual(node,html)
+        node = TextNode("This is a test", "code").text_node_to_html_node().to_html()
+        html = "<code>This is a test</code>"
+        self.assertEqual(node,html)
+        node = TextNode("This is a test", "link", url = "test.html").text_node_to_html_node().to_html()
+        html = '<a href="test.html">This is a test</a>'
+        self.assertEqual(node,html)
+        node = TextNode("This is a test", "image", url = "test.html").text_node_to_html_node().to_html()
+        html = '<img src="test.html" alt="This is a test">'
+        self.assertEqual(node,html)
+
 if __name__ == "__main__":
     unittest.main()

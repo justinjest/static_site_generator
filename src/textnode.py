@@ -20,7 +20,7 @@ class TextNode:
                  "italic": LeafNode("i", self.text), 
                  "code": LeafNode("code", self.text), 
                  "link": LeafNode("a", self.text, {"href":self.url}), 
-                 "image": LeafNode("img", "", {"SRC":self.url, "alt":self.text})}
+                 "image": LeafNode("img", "", {"src":self.url, "alt":self.text})}
         if self.text_type.lower() not in types:
             raise Exception ("Not a valid text type")
         print(types[self.text_type])
