@@ -40,6 +40,16 @@ class TestHTMLNode(unittest.TestCase):
         node = LeafNode("b", "Bold text").to_html()
         html = "<b>Bold text</b>"
         self.assertEqual(node, html)
+        node = LeafNode("img", "", {"src":"image.url","alt":"test"}).to_html()
+        result = '<img src="image.url" alt="test">'
+        self.assertEqual(node,result)
+        node = LeafNode("p", "test", {}).to_html()
+        result = '<p>test</p>'
+        self.assertEqual(node,result)
+        node = LeafNode("", "test", {}).to_html()
+        result = 'test'
+        self.assertEqual(node,result)
+
         # ParentNode tests
         node = ParentNode(
                         "p",
@@ -52,6 +62,7 @@ class TestHTMLNode(unittest.TestCase):
                     ).to_html()
         result = "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>"
         self.assertEqual(node, result)
+
         node = ParentNode(
             "p",
             [ParentNode(
