@@ -11,15 +11,16 @@ text_type_image = "image"
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     result = []
     for i in old_nodes:
-        if i.text_type != text_type_text:
-            result.append(old_nodes[i])
-        try:
-            split = i.text.split(delimiter)
-            result.append(TextNode(f"{split[0]}", "text"))
-            result.append(TextNode(f"{split[1]}", f"{text_type}"))
-            result.append(TextNode(f"{split[2]}", "text"))
-        except:
-            raise Exception ("Unable to split along delimiter {delimiter} text {i.text}")
+        if i.text_type != text_type_text or delimiter not in i.text:
+            result.append(i)
+        else:
+            try:
+                split = i.text.split(delimiter)
+                result.append(TextNode(f"{split[0]}", "text"))
+                result.append(TextNode(f"{split[1]}", f"{text_type}"))
+                result.append(TextNode(f"{split[2]}", "text"))
+            except:
+                raise Exception ("Unable to split along delimiter {delimiter} text {i.text}")
     return result
 
 def extract_markdown_images(md_text):
@@ -60,3 +61,15 @@ def split_nodes_link(old_nodes):
             if split_text != "":
                 result.append(TextNode(f"{split_text}", text_type_text))
     return(result)
+
+def text_to_textnodes(text):
+    delimiters = {"**": "bold",
+                  "*": "italic",
+                  "`": "code"}
+    starting_node = [TextNode(text, text_type_text)]
+    for i in delimiters.keys():
+        tmp = split_nodes_delimiter(starting_node, i, delimiters[i])
+        starting_node = tmp
+    starting_node = split_nodes_image(starting_node)
+    starting_node = split_nodes_link(starting_node)
+    return (starting_node)

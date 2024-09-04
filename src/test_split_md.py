@@ -111,5 +111,29 @@ class TestSplit(unittest.TestCase):
                   TextNode("This is a node with an image ", text_type_text),
                   TextNode("obi wan", text_type_image, "chess.com")]
         self.assertEqual(new_node, result)
+
+        text = "This is a **bold** test"
+        result = [TextNode("This is a ", text_type_text),
+                  TextNode("bold", text_type_bold),
+                  TextNode(" test", text_type_text)]
+        new_nodes = text_to_textnodes(text)
+        self.assertEqual(new_nodes, result)
+
+        text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+        new_nodes = text_to_textnodes(text)
+        result = [
+            TextNode("This is ", text_type_text),
+            TextNode("text", text_type_bold),
+            TextNode(" with an ", text_type_text),
+            TextNode("italic", text_type_italic),
+            TextNode(" word and a ", text_type_text),
+            TextNode("code block", text_type_code),
+            TextNode(" and an ", text_type_text),
+            TextNode("obi wan image", text_type_image, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode(" and a ", text_type_text),
+            TextNode("link", text_type_link, "https://boot.dev"),
+        ]
+        self.assertEqual(new_nodes, result)
+
 if __name__ == "__main__":
     unittest.main()
