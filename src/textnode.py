@@ -18,8 +18,7 @@ class TextNode:
                  "link": LeafNode("a", self.text, {"href":self.url}), 
                  "image": LeafNode("img", "", {"src":self.url, "alt":self.text})}
         if self.text_type.lower() not in types:
-            raise Exception ("Not a valid text type")
-        print(types[self.text_type])
+            raise Exception ("Not a valid text type") 
         return (types[self.text_type]) 
     
     def __eq__(self, node):
