@@ -11,7 +11,7 @@ class TextNode:
         return (f"TextNode({self.text}, {self.text_type}, {self.url})")
     
     def text_node_to_html_node(self):
-        types = {"text":LeafNode(None, self.text),
+        types = {"text": LeafNode(None, self.text),
                  "bold": LeafNode("b", self.text), 
                  "italic": LeafNode("i", self.text), 
                  "code": LeafNode("code", self.text), 

@@ -1,4 +1,3 @@
-from textnode import TextNode
 import re
 
 def markdown_to_blocks(text):
@@ -33,7 +32,6 @@ def block_to_block_type(block):
 def is_header(block):
     if re.match(r"##* ", block) != None:
         return "heading"
-
 
 def is_code(block):
     if block[0:3] == "```" and block[-3:] == "```":

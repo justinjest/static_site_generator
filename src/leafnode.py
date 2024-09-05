@@ -14,7 +14,6 @@ class LeafNode(HTMLNode):
 
 
     def to_html(self):
-        # TODO add single closed tag support EG <img>
         if self.tag == None:
             return (self.value)
         if self.tag in LeafNode._SelfClosingTags:
