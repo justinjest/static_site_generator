@@ -135,5 +135,6 @@ class TestSplit(unittest.TestCase):
         ]
         self.assertEqual(new_nodes, result)
 
+
 if __name__ == "__main__":
     unittest.main()
