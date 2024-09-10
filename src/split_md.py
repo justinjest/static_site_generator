@@ -11,7 +11,7 @@ text_type_image = "image"
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     result = []
     for i in old_nodes:
-        if i.text_type != text_type_text or delimiter not in i.text:
+        if i.text_type != text_type_text or i.text.count(delimiter) <= 1:
             result.append(i)
         else:
             try:

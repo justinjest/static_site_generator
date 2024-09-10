@@ -12,7 +12,7 @@ class ParentNode(HTMLNode):
         if self.tag == None:
             raise ValueError ("Tags required for ParentClass")
         if self.children == None:
-            raise ValueError ("Children required for Parent Class")
+            raise ValueError ("Children required for Parent Class") 
         for child in self.children:
             html_content += child.to_html() 
         if self.props == None:

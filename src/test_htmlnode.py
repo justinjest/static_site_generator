@@ -76,6 +76,8 @@ class TestHTMLNode(unittest.TestCase):
         result = "<p><a><b>Bold text</b>Normal text</a><i>italic text</i>Normal text</p>"
         self.assertEqual(node, result)
 
-
+        node = ParentNode("div", [ParentNode("ul", [LeafNode(None, "<li>this is an unordered list</li>"), LeafNode(None, "<li>there are two things in it</li>")])]).to_html()
+        result = "<div><ul><li>this is an unordered list</li><li>there are two things in it</li></ul></div>"
+        self.assertEqual(node, result)
 if __name__ == "__main__":
     unittest.main()

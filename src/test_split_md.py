@@ -135,6 +135,11 @@ class TestSplit(unittest.TestCase):
         ]
         self.assertEqual(new_nodes, result)
 
-
+        text = "* This is a list item"
+        new_nodes = text_to_textnodes(text)
+        result = [
+             TextNode("* This is a list item", text_type_text)
+        ]
+        self.assertEqual(new_nodes, result)
 if __name__ == "__main__":
     unittest.main()
