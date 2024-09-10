@@ -4,7 +4,8 @@ from parentnode import ParentNode
 from textnode import TextNode
 from split_md import *
 from leafnode import LeafNode
-
+# Consumes a markdown file
+# Outputs the valid HTML
 def markdown_to_html_node(markdown):
     # Markdown -> Blocks
     # Blocks -> TextNode
@@ -17,7 +18,8 @@ def markdown_to_html_node(markdown):
     final_node = ParentNode("div", [leaf_nodes])
     return(final_node.to_html())
 
-
+# Consumes a single block of markdown
+# Outputs HTMLNode for that block
 def block_to_html(blocks):
         block_wrapper={"quote":"blockquote",
                 "unordered_list":"ul",
@@ -30,25 +32,41 @@ def block_to_html(blocks):
             block_type = block_to_block_type(block)
             text_nodes = text_to_textnodes(block)
             leaf_nodes = []
-            if block_type == "unordered_list":
-                text_nodes = unordered_list_to_text_nodes(block)
+            if block_type == "unordered_list" or block_type == "ordered_list":
+                text_nodes = list_to_text_nodes(block)
                 for text_node in text_nodes:
                      leaf_nodes.append(ParentNode("li", [text_node.text_node_to_html_node()]))
-            else:
+            elif block_type == "paragraph":
                 for text_node in text_nodes:
-                    # This creates the LeafNodes that we need for this
                     leaf_nodes.append(text_node.text_node_to_html_node())
+            else:
+                 raise Exception ("Block type not defined", block)
             node = ParentNode(f"{block_wrapper[block_type]}", leaf_nodes)
         return node
 
 # Consumes a unordered list text object
 # Outputs a text_node list
-def unordered_list_to_text_nodes(text):
+def list_to_text_nodes(text):
     new_line_breaks = text.split("\n")
     results = []
     for line in new_line_breaks:
-        line = line.lstrip(" *")
+        line = line.lstrip(" *-")
         tmp = text_to_textnodes(line)
         for text_node in tmp:
             results.append(text_node)
     return results
+
+def header_to_text_nodes(text):
+     # TODO
+
+     pass
+
+def code_to_text_nodes(text):
+     # TODO
+
+     pass
+
+def quote_to_text_nodes(text):
+     # TODO
+
+     pass

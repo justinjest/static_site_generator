@@ -1,6 +1,5 @@
 import unittest
 from markdown_to_html import *
-
 class TestHTMLNode(unittest.TestCase):
     def test_eq(self):
 
@@ -12,5 +11,11 @@ class TestHTMLNode(unittest.TestCase):
 * there are two things in it""")
         result = "<div><ul><li>this is an unordered list</li><li>there are two things in it</li></ul></div>"
         self.assertEqual(test, result)
+
+        test = markdown_to_html_node("""1. An ordered list
+2. Nicely ordered""")
+        result = "<div><ol><li>1. An ordered list</li><li>2. Nicely ordered</li></ol></div>"
+        self.assertEqual(test,result)
+
 if __name__ == "__main__":
     unittest.main()
