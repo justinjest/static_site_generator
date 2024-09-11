@@ -41,5 +41,13 @@ class TestHTMLNode(unittest.TestCase):
 And some *more complicated* things""")
         result = "<div><h1>Hello world</h1><h2>Welcome to my website</h2><pre><code>Code lives here</code></pre><p>And some <i>more complicated</i> things</p></div>"
         self.assertEqual(test,result)    
+
+        test = markdown_to_html_node(""">You miss 100% of the shots you don't take
+>Wayne Gretzky
+>Michael Scott""")
+        result = """<div><blockquote>You miss 100% of the shots you don't take
+Wayne Gretzky
+Michael Scott</blockquote></div>"""
+        self.assertEqual(test, result)
 if __name__ == "__main__":
     unittest.main()

@@ -53,6 +53,11 @@ def block_to_html(block):
         elif block_type == "paragraph":
             for text_node in text_to_textnodes(block):
                 leaf_nodes.append(text_node.text_node_to_html_node())
+
+        elif block_type == "quote":
+             for text_node in quote_to_text_nodes(block):
+                  leaf_nodes.append(text_node.text_node_to_html_node())
+
         else:
                 raise Exception ("Block type not defined", block)
         node = ParentNode(f"{block_wrapper[block_type]}", leaf_nodes)
@@ -85,7 +90,12 @@ def code_to_text_nodes(text):
     return results
 
 def quote_to_text_nodes(text):
-    text_nodes = text_to_textnodes(text.strip(">"))
+    tmp = text.split("\n")
+    lines = []
+    for line in tmp:
+        lines.append(line.lstrip(">"))
+    text = "\n".join(lines)
+    text_nodes = text_to_textnodes(text)
     results = []
     for text_node in text_nodes:
         results.append(text_node)
