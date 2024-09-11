@@ -20,5 +20,26 @@ class TestHTMLNode(unittest.TestCase):
         test = markdown_to_html_node("""# header""")
         result = "<div><h1>header</h1></div>"
         self.assertEqual(test,result)
+
+        test = markdown_to_html_node("""# header
+
+* list 1
+* list 2""")
+        result = "<div><h1>header</h1><ul><li>list 1</li><li>list 2</li></ul></div>"
+        self.assertEqual(test, result)
+
+        test = markdown_to_html_node("""```Codeing```""")
+        result = "<div><pre><code>Codeing</code></pre></div>"
+        self.assertEqual(test,result)
+
+        test = markdown_to_html_node("""# Hello world
+
+## Welcome to my website
+
+```Code lives here```
+
+And some *more complicated* things""")
+        result = "<div><h1>Hello world</h1><h2>Welcome to my website</h2><pre><code>Code lives here</code></pre><p>And some <i>more complicated</i> things</p></div>"
+        self.assertEqual(test,result)    
 if __name__ == "__main__":
     unittest.main()

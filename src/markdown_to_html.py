@@ -13,44 +13,49 @@ def markdown_to_html_node(markdown):
     # For basic textbolcks we wrap this with <p>
 
     blocks = markdown_to_blocks(markdown)
-    leaf_nodes = block_to_html(blocks)
+    leaf_nodes = []
+    for block in blocks:
+        leaf_nodes.append(block_to_html(block))
     # Add the div wrapper
-    final_node = ParentNode("div", [leaf_nodes])
-    print(final_node)
+    final_node = ParentNode("div", leaf_nodes)
     return(final_node.to_html())
 
 # Consumes a single block of markdown
 # Outputs HTMLNode for that block
-def block_to_html(blocks):
+def block_to_html(block):
         block_wrapper={"quote":"blockquote",
                 "unordered_list":"ul",
                 "ordered_list":"ol",
-                "code":"code",
+                "code":"pre",
                 "heading":"h",
                 "paragraph":"p"}
-        for block in blocks:
-            # Each block must now be converted into the parent HTML item
-            block_type = block_to_block_type(block)
-            text_nodes = text_to_textnodes(block)
-            leaf_nodes = []
-            if block_type == "unordered_list" or block_type == "ordered_list":
-                text_nodes = list_to_text_nodes(block)
-                for text_node in text_nodes:
-                     leaf_nodes.append(ParentNode("li", [text_node.text_node_to_html_node()]))
+        # Each block must now be converted into the parent HTML item
+        block_type = block_to_block_type(block)
+        leaf_nodes = []
+        if block_type == "unordered_list" or block_type == "ordered_list":
+            text_nodes = list_to_text_nodes(block)
+            for text_node in text_nodes:
+                    leaf_nodes.append(ParentNode("li", [text_node.text_node_to_html_node()]))
 
-            elif block_type == "heading":
-                tmp = block.split(" ")
-                block_wrapper["heading"] = f"h{len(tmp[0])}"
-                text_nodes = header_to_text_nodes(block)
-                for text_node in text_nodes:
-                    leaf_nodes.append(text_node.text_node_to_html_node())
+        elif block_type == "heading":
+            tmp = block.split(" ")
+            block_wrapper["heading"] = f"h{len(tmp[0])}"
+            text_nodes = header_to_text_nodes(block)
+            for text_node in text_nodes:
+                leaf_nodes.append(text_node.text_node_to_html_node())
 
-            elif block_type == "paragraph":
-                for text_node in text_nodes:
-                    leaf_nodes.append(text_node.text_node_to_html_node())
-            else:
-                 raise Exception ("Block type not defined", block)
-            node = ParentNode(f"{block_wrapper[block_type]}", leaf_nodes)
+        elif block_type == "code":
+            text_nodes = code_to_text_nodes(block)
+
+            for text_node in text_nodes:
+                leaf_nodes.append(ParentNode("code", [text_node.text_node_to_html_node()]))
+
+        elif block_type == "paragraph":
+            for text_node in text_to_textnodes(block):
+                leaf_nodes.append(text_node.text_node_to_html_node())
+        else:
+                raise Exception ("Block type not defined", block)
+        node = ParentNode(f"{block_wrapper[block_type]}", leaf_nodes)
         return node
 
 # Consumes a unordered list text object
@@ -66,7 +71,6 @@ def list_to_text_nodes(text):
     return results
 
 def header_to_text_nodes(text):
-    # TODO count number of # on left of line
     text_nodes = text_to_textnodes(text.lstrip("# "))
     results = []
     for text_node in text_nodes:
@@ -74,11 +78,15 @@ def header_to_text_nodes(text):
     return results
 
 def code_to_text_nodes(text):
-     # TODO
-
-     pass
+    text_nodes = text_to_textnodes(text.strip("`"))
+    results = []
+    for text_node in text_nodes:
+        results.append(text_node)
+    return results
 
 def quote_to_text_nodes(text):
-     # TODO
-
-     pass
+    text_nodes = text_to_textnodes(text.strip(">"))
+    results = []
+    for text_node in text_nodes:
+        results.append(text_node)
+    return results
