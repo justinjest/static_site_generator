@@ -2,6 +2,7 @@ from textnode import TextNode
 import shutil, os
 from pathlib import Path
 from split_blocks import markdown_to_blocks
+from markdown_to_html import *
 
 def main():
     # Static folder is one level above and then into static
@@ -53,8 +54,22 @@ def generate_page(from_path, template_path, dest_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     with open(from_path) as md:
         markdown = md.read()
-    print(markdown)
+    md.close()
+    with open(template_path) as template:
+        html_template = template.read()
+    template.close()
+    
+    Content = markdown_to_html_node(markdown)
+    Title = extract_title(markdown)
+    html_template = html_template.replace("{{ Title }}", Title)
+    html_template = html_template.replace("{{ Content }}", Content)
+    
+    if not os.path.exists(dest_path):
+        os.mkdir(dest_path)
 
+    with open(f"{dest_path}/index.html", "w") as output:
+        output.write(html_template)
+    output.close()
 
 
 if __name__ == "__main__":

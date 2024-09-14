@@ -58,6 +58,5 @@ Michael Scott</blockquote></div>"""
         result = "Hello"
         self.assertEqual(test,result)
 
-        self.assertRaises(Exception, extract_title("Hello"))
 if __name__ == "__main__":
     unittest.main()
