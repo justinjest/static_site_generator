@@ -4,6 +4,7 @@ from parentnode import ParentNode
 from textnode import TextNode
 from split_md import *
 from leafnode import LeafNode
+import re
 # Consumes a markdown file
 # Outputs the valid HTML
 def markdown_to_html_node(markdown):
@@ -35,7 +36,7 @@ def block_to_html(block):
         if block_type == "unordered_list" or block_type == "ordered_list":
             text_nodes = list_to_text_nodes(block)
             for text_node in text_nodes:
-                    leaf_nodes.append(ParentNode("li", [text_node.text_node_to_html_node()]))
+                    leaf_nodes.append(text_node)
 
         elif block_type == "heading":
             tmp = block.split(" ")
@@ -67,13 +68,15 @@ def block_to_html(block):
 # Outputs a text_node list
 def list_to_text_nodes(text):
     new_line_breaks = text.split("\n")
-    results = []
+    test = []
     for line in new_line_breaks:
-        line = line.lstrip(" *-")
+        line_html = []
+        line = line.lstrip("'0123456789.-* ")
         tmp = text_to_textnodes(line)
         for text_node in tmp:
-            results.append(text_node)
-    return results
+            line_html.append(text_node.text_node_to_html_node())
+        test.append(ParentNode("li", line_html))
+    return test
 
 def header_to_text_nodes(text):
     text_nodes = text_to_textnodes(text.lstrip("# "))
@@ -93,7 +96,7 @@ def quote_to_text_nodes(text):
     tmp = text.split("\n")
     lines = []
     for line in tmp:
-        lines.append(line.lstrip(">"))
+        lines.append(line.lstrip("> "))
     text = "\n".join(lines)
     text_nodes = text_to_textnodes(text)
     results = []

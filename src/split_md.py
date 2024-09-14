@@ -18,7 +18,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 split = i.text.split(delimiter)
                 result.append(TextNode(f"{split[0]}", "text"))
                 result.append(TextNode(f"{split[1]}", f"{text_type}"))
-                result.append(TextNode(f"{split[2]}", "text"))
+                if f"{split[2]}" != "":
+                    result.append(TextNode(f"{split[2]}", "text"))
             except:
                 raise Exception ("Unable to split along delimiter {delimiter} text {i.text}")
     return result

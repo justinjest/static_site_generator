@@ -14,7 +14,7 @@ class TestHTMLNode(unittest.TestCase):
 
         test = markdown_to_html_node("""1. An ordered list
 2. Nicely ordered""")
-        result = "<div><ol><li>1. An ordered list</li><li>2. Nicely ordered</li></ol></div>"
+        result = "<div><ol><li>An ordered list</li><li>Nicely ordered</li></ol></div>"
         self.assertEqual(test,result)
 
         test = markdown_to_html_node("""# header""")
@@ -58,5 +58,11 @@ Michael Scott</blockquote></div>"""
         result = "Hello"
         self.assertEqual(test,result)
 
+        test = markdown_to_html_node("""* It can be enjoyed by children and adults alike
+* Disney *didn't ruin it*""")
+        result = "<div><ul><li>It can be enjoyed by children and adults alike</li><li>Disney <i>didn't ruin it</i></li></ul></div>"
+        self.assertEqual(test,result)
+
+        
 if __name__ == "__main__":
     unittest.main()
