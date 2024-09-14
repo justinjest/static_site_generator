@@ -100,3 +100,11 @@ def quote_to_text_nodes(text):
     for text_node in text_nodes:
         results.append(text_node)
     return results
+
+
+def extract_title(markdown):
+    blocks = markdown_to_blocks(markdown)
+    for block in blocks:
+        if block.strip()[0:2] == "# ":
+            return block.lstrip("# ")
+    raise Exception ("No header found")

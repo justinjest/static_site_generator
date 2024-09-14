@@ -49,5 +49,15 @@ And some *more complicated* things""")
 Wayne Gretzky
 Michael Scott</blockquote></div>"""
         self.assertEqual(test, result)
+
+        test = extract_title("# Hello")
+        result = "Hello"
+        self.assertEqual(test, result)
+
+        test = extract_title(" # Hello")
+        result = "Hello"
+        self.assertEqual(test,result)
+
+        self.assertRaises(Exception, extract_title("Hello"))
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,7 @@
 from textnode import TextNode
 import shutil, os
 from pathlib import Path
+from split_blocks import markdown_to_blocks
 
 def main():
     # Static folder is one level above and then into static
@@ -11,6 +12,7 @@ def main():
     static_path = "static"
     empty_folder(public_path)
     copy_static(static_path, public_path)
+    generate_page("content/index.md", "template.html", public_path)
 
 # Path -> None
 # Deletes everything in Path to allow us to create new folders
@@ -42,6 +44,18 @@ def copy_static(from_path, to_path):
             print (f"{path} is a subfolder, moved to {new_folder}")
             os.mkdir(new_folder)
             copy_static(path, new_folder)
+
+
+# Path, Path, Path -> HTML file
+# Takes MD from from_path, html template from template_path, and copies new HTML doc 
+# to dest_path
+def generate_page(from_path, template_path, dest_path):
+    print(f"Generating page from {from_path} to {dest_path} using {template_path}")
+    with open(from_path) as md:
+        markdown = md.read()
+    print(markdown)
+
+
 
 if __name__ == "__main__":
     main()
